@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+<img width="1200" height="475" alt="E-commerce Banner" src="/public/hombre-Matgeor-Training-Light.png" />
+</div>
 
-## Getting Started
+# Modern E-commerce Platform
 
-First, run the development server:
+A full-stack e-commerce application built with Next.js, featuring an admin dashboard, secure authentication, and a dynamic shopping experience.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Table of Contents
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Demo](#demo)
+- [Features](#features)
+- [Installation Steps](#installation-steps)
+  - [Run Locally](#run-locally)
+- [Process](#process)
+  - [Architecture & State](#architecture--state)
+  - [Core Modules](#core-modules)
+  - [Built with](#built-with)
+    - [Applied Skills](#applied-skills)
+    - [Tools Used](#tools-used)
+- [Useful resources](#useful-resources)
+- [Author](#author)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+_(Insert Video/Gif Link here)_
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Product Catalog:** Browse products with advanced filtering by brand and category.
+- **Admin Dashboard:** Full CRUD functionality for product management and inventory control.
+- **Shopping Cart:** Real-time cart updates managed with Zustand.
+- **Secure Authentication:** User and Admin roles implemented via NextAuth.js.
+- **Responsive Design:** Optimized for mobile, tablet, and desktop using Tailwind CSS.
+- **Persisted Data:** Database management with Prisma and SQLite.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation Steps
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Run Locally
 
-## Deploy on Vercel
+**Prerequisites:** Node.js, npm/pnpm/yarn
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Install dependencies:**
+   `npm install`
+2. **Setup Database:**
+   `npx prisma migrate dev`
+   `npm run seed`
+3. **Run the app:**
+   `npm run dev`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Process
+
+### Architecture & State
+
+The application uses **Next.js App Router** for structured navigation and SEO. **Zustand** handles the client-side state for the shopping cart and user preferences, ensuring a seamless and fast UI experience without constant server roundtrips for minor state changes.
+
+### Core Modules
+
+1.  **Admin Panel:** Protected routes for managing products, including image uploads and price updates.
+2.  **Catalog & Search:** Dynamic product display with real-time search filtering.
+3.  **Auth System:** Multi-role authentication (Admin/User) to restrict access to sensitive operations.
+
+### Built with
+
+#### Applied Skills
+
+- **Full-Stack Development:** Integrating frontend UI with backend Server Actions and Database.
+- **State Management:** Efficient global state handling with Zustand.
+- **Database Design:** Modeling relationships and schemas with Prisma ORM.
+- **Secure Development:** Implementing authentication and authorization patterns.
+- **UI/UX Design:** Creating a premium, responsive shopping interface.
+
+#### Tools Used
+
+- **Frameworks:** Next.js 16, React 19
+- **Database:** Prisma, SQLite
+- **State & Auth:** Zustand, NextAuth.js
+- **Styles:** Tailwind CSS, Lucide React (Icons)
+- **Language:** TypeScript
+- **Deployment:** Vercel (Planned)
+- **AI:** Google Antigravity (Powered)
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+</div>
+
+## Useful resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Prisma ORM](https://www.prisma.io/)
+- [Zustand State Management](https://github.com/pmndrs/zustand)
+- [NextAuth.js](https://next-auth.js.org/)
+
+## Author
+
+Made with ❤️ by Snt1ago
