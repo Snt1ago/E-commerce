@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 };
 
 import SessionProvider from "@/app/components/SessionProvider";
+import WhatsAppButton from "@/app/components/WhatsAppButton";
 
 export default function RootLayout({
   children,
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <CartProvider>{children}</CartProvider>
+          <WhatsAppButton />
         </SessionProvider>
       </body>
     </html>

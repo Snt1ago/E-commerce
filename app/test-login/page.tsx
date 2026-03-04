@@ -20,6 +20,10 @@ export default async function TestLoginPage() {
                 return redirect("/test-login?error=UserNotFound");
             }
 
+            if (!user.password) {
+                return redirect("/test-login?error=InvalidCredentials");
+            }
+
             const match = await bcrypt.compare(password, user.password);
 
             if (match) {

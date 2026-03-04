@@ -14,7 +14,7 @@ export default function Contact() {
         const data = new FormData(form);
 
         try {
-            const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+            const response = await fetch("https://formspree.io/f/mpwryqep", {
                 method: "POST",
                 body: data,
                 headers: {
@@ -25,6 +25,9 @@ export default function Contact() {
             if (response.ok) {
                 setStatus("success");
                 form.reset();
+                setTimeout(() => {
+                    setStatus("idle");
+                }, 3000);
             } else {
                 setStatus("error");
             }
@@ -47,25 +50,25 @@ export default function Contact() {
                             </p>
 
                             <div className="space-y-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center shrink-0">
-                                        <Mail className="w-5 h-5 text-blue-400" />
+                                <a href="mailto:soporte@duoshorts.com" className="flex items-center gap-4 group cursor-pointer">
+                                    <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-colors">
+                                        <Mail className="w-5 h-5 text-blue-400 group-hover:text-white transition-colors" />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold uppercase tracking-wider text-sm mb-1">Email</h3>
+                                        <h3 className="font-bold uppercase tracking-wider text-sm mb-1 group-hover:text-blue-400 transition-colors">Email</h3>
                                         <p className="text-gray-400">soporte@duoshorts.com</p>
                                     </div>
-                                </div>
+                                </a>
 
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center shrink-0">
-                                        <Phone className="w-5 h-5 text-blue-400" />
+                                <a href="https://wa.me/59894259238" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group cursor-pointer">
+                                    <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center shrink-0 group-hover:bg-green-600 transition-colors">
+                                        <Phone className="w-5 h-5 text-blue-400 group-hover:text-white transition-colors" />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold uppercase tracking-wider text-sm mb-1">Teléfono</h3>
-                                        <p className="text-gray-400">+1 (555) 123-4567</p>
+                                        <h3 className="font-bold uppercase tracking-wider text-sm mb-1 group-hover:text-green-400 transition-colors">Teléfono</h3>
+                                        <p className="text-gray-400">+598 94 259 238</p>
                                     </div>
-                                </div>
+                                </a>
 
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center shrink-0">
@@ -73,7 +76,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <h3 className="font-bold uppercase tracking-wider text-sm mb-1">Ubicación</h3>
-                                        <p className="text-gray-400">Ciudad de México, México</p>
+                                        <p className="text-gray-400">Montevideo, Uruguay</p>
                                     </div>
                                 </div>
                             </div>

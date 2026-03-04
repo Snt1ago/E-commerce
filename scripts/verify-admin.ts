@@ -19,6 +19,11 @@ async function verify() {
         console.log("✅ User found:", user.email, "Role:", user.role);
         console.log("Hashed Password in DB:", user.password);
 
+        if (!user.password) {
+            console.error("❌ User password is null.");
+            return;
+        }
+
         console.log("Comparing with 'admin123'...");
         const match = await bcrypt.compare("admin123", user.password);
 

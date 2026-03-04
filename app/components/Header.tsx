@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "next-auth/react";
+import PredictiveSearch from "./PredictiveSearch";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -83,16 +84,7 @@ export default function Header() {
         </nav>
 
         {/* Search Bar */}
-        <form onSubmit={handleSearch} className="hidden lg:flex flex-1 max-w-sm relative">
-          <input
-            type="text"
-            placeholder="Buscar shorts, marcas..."
-            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black transition-all"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-        </form>
+        <PredictiveSearch />
 
         {/* Actions */}
         <div className="flex items-center gap-6 text-sm font-medium text-gray-700 shrink-0">
