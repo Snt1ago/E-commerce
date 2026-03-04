@@ -60,7 +60,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] font-medium uppercase tracking-widest text-gray-400">
           <div className="flex flex-col md:flex-row items-center gap-4">
-            <p>© 2024 DuoShorts. Todos los derechos reservados.</p>
+            <p>© 2026 DuoShorts. Todos los derechos reservados.</p>
             <span className="hidden md:inline text-gray-200">|</span>
             <p className="flex items-center gap-1">
               Desarrollado por

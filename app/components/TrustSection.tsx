@@ -6,9 +6,9 @@ export default function TrustSection() {
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-            <span className="text-gray-500 uppercase text-xs font-semibold tracking-widest mb-2 block">Certeza</span>
-            <h2 className="text-3xl font-bold text-gray-900">Lo que respalda tu compra</h2>
-            <p className="text-gray-500 mt-2 text-sm italic">Más que una tienda, una experiencia segura</p>
+          <span className="text-gray-500 uppercase text-xs font-semibold tracking-widest mb-2 block">Certeza</span>
+          <h2 className="text-3xl font-bold text-gray-900">Lo que respalda tu compra</h2>
+          <p className="text-gray-500 mt-2 text-sm italic">Más que una tienda, una experiencia segura</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -32,7 +32,7 @@ export default function TrustSection() {
           {/* Card 2: Payment */}
           <div className="relative group overflow-hidden rounded-sm h-64 flex items-end p-6">
             <Image
-              src="https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=600"
+              src="https://images.unsplash.com/photo-1628527304948-06157ee3c8a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Payment"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-110 brightness-50"

@@ -74,7 +74,7 @@ export default function Newsletter() {
         {/* Image Side */}
         <div className="relative h-64 md:h-auto md:w-1/2">
           <Image
-            src="https://images.unsplash.com/photo-1549576490-b0b4831da60a?auto=format&fit=crop&q=80&w=1200"
+            src="/athlete-training.jpg"
             alt="Athlete training"
             fill
             className="object-cover brightness-75 grayscale hover:grayscale-0 transition-all duration-1000"

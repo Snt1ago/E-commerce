@@ -4,6 +4,7 @@ import FeaturesSection from "./components/FeaturesSection";
 import TrustSection from "./components/TrustSection";
 import FAQSection from "./components/FAQSection";
 import Testimonials from "./components/Testimonials";
+import Contact from "./components/Contact";
 import Newsletter from "./components/Newsletter";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -18,6 +19,7 @@ export default function Home() {
       <TrustSection />
       <FAQSection />
       <Testimonials />
+      <Contact />
       <Newsletter />
       <Footer />
     </main>

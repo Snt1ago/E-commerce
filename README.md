@@ -1,5 +1,5 @@
 <div align="center">
-<img width="1200" height="475" alt="E-commerce Banner" src="/public/hombre-Matgeor-Training-Light.png" />
+<img width="1200" height="475" alt="E-commerce Banner" src="/public/logo.svg" />
 </div>
 
 # Modern E-commerce Platform

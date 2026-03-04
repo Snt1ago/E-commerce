@@ -7,7 +7,7 @@ export default function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?q=80&w=1920&auto=format&fit=crop"
+          src="/hero.png"
           alt="Athlete background"
           fill
           className="object-cover brightness-[0.3]"
