@@ -165,7 +165,7 @@ export default function PaymentStep({ items, checkoutData }: PaymentStepProps) {
               {items.map((item) => (
                 <div key={`${item.id}-${item.selectedSize}`} className="flex gap-6 items-center">
                   <div className="w-16 h-16 bg-neutral-50 rounded-lg overflow-hidden flex-shrink-0">
-                    <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover grayscale" />
+                    <img src={item.images?.[0] || '/logo.svg'} alt={item.name} className="w-full h-full object-cover grayscale" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs font-black uppercase tracking-tight text-neutral-900">{item.name}</p>

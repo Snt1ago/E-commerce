@@ -17,7 +17,7 @@ export default function CartContent() {
         return new Intl.NumberFormat("es-AR", {
             style: "currency",
             currency: "ARS",
-        }).format(price * 1000);
+        }).format(price);
     };
 
     if (items.length === 0) {
@@ -61,7 +61,7 @@ export default function CartContent() {
                             >
                                 <div className="relative w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden">
                                     <Image
-                                        src={item.images[0]}
+                                        src={item.images?.[0] || '/logo.svg'}
                                         alt={item.name}
                                         fill
                                         className="object-cover"

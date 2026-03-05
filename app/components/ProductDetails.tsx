@@ -17,7 +17,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     return new Intl.NumberFormat("es-AR", {
       style: "currency",
       currency: "ARS",
-    }).format(price * 1000);
+    }).format(price);
   };
 
   // Simulación de descripción
@@ -62,18 +62,17 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <button
               key={size}
               onClick={() => setSelectedSize(size)}
-              className={`group relative flex items-center justify-center rounded-xl border px-4 py-3 text-sm font-medium uppercase shadow-sm transition-all active:scale-95 focus:outline-none ${
-                selectedSize === size
+              className={`group relative flex items-center justify-center rounded-xl border px-4 py-3 text-sm font-medium uppercase shadow-sm transition-all active:scale-95 focus:outline-none ${selectedSize === size
                   ? "border-indigo-600 bg-indigo-50 text-indigo-600 ring-2 ring-indigo-600"
                   : "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
-              }`}
+                }`}
             >
               <span>{size}</span>
             </button>
           ))}
         </div>
         {!selectedSize && (
-            <p className="text-red-500 text-sm mt-2">Por favor selecciona una talla</p>
+          <p className="text-red-500 text-sm mt-2">Por favor selecciona una talla</p>
         )}
       </div>
 
