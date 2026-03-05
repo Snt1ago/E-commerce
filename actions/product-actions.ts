@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
+import slugify from "slugify";
 
 // Helper to check if user is admin
 async function requireAdmin() {
@@ -90,10 +91,21 @@ export async function createProduct(formData: FormData) {
     const rating = parseFloat(formData.get("rating") as string) || 0;
 
     try {
+        let baseSlug = slug || slugify(name, { lower: true, strict: true });
+        let uniqueSlug = baseSlug;
+        let counter = 1;
+
+        while (true) {
+            const existing = await prisma.product.findUnique({ where: { slug: uniqueSlug } });
+            if (!existing) break;
+            uniqueSlug = `${baseSlug}-${counter}`;
+            counter++;
+        }
+
         await prisma.product.create({
             data: {
                 name,
-                slug,
+                slug: uniqueSlug,
                 category,
                 gender,
                 price,
@@ -113,6 +125,9 @@ export async function createProduct(formData: FormData) {
         return { success: true };
     } catch (error: any) {
         console.error("Create Product Error:", error);
+        if (error.code === 'P2002' && error.meta?.target?.includes('slug')) {
+            return { error: "Ya existe un producto con esta URL (Slug). Por favor, intenta con otra (ej. agregando un número al final)." };
+        }
         return { error: error.message || "Failed to create product" };
     }
 }

@@ -173,7 +173,13 @@ export default function ProductsTable({ products }: { products: Product[] }) {
                                         <div className="w-16 h-16 relative rounded-sm overflow-hidden bg-gray-100">
                                             {product.images?.[0] ? (
                                                 <Image
-                                                    src={product.images[0]}
+                                                    src={
+                                                        product.images[0].startsWith('http') ||
+                                                            product.images[0].startsWith('/') ||
+                                                            product.images[0].startsWith('data:')
+                                                            ? product.images[0]
+                                                            : `/${product.images[0]}`
+                                                    }
                                                     alt={product.name}
                                                     fill
                                                     className="object-cover"

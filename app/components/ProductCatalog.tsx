@@ -263,7 +263,13 @@ export default function ProductCatalog({
                   <div className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden mb-4">
                     {product.images?.[0] ? (
                       <Image
-                        src={product.images[0]}
+                        src={
+                          product.images[0].startsWith('http') ||
+                            product.images[0].startsWith('/') ||
+                            product.images[0].startsWith('data:')
+                            ? product.images[0]
+                            : `/${product.images[0]}`
+                        }
                         alt={product.name}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-300"

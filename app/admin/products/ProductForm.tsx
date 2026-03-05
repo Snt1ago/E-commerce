@@ -69,7 +69,16 @@ export default function ProductForm({ product, isEdit = false, onSuccess }: Prod
 
         const sizesArray = sizesInput.split(",").map(s => s.trim()).filter(Boolean);
         const colorsArray = colorsInput.split(",").map(c => c.trim()).filter(Boolean);
-        const finalImages = imageUrls.filter(url => url.trim() !== "");
+        const finalImages = imageUrls
+            .map(url => url.trim())
+            .filter(url => url !== "")
+            .map((url) => {
+                // Si la URL no empieza con http, data o una barra /, le agregamos la barra
+                if (!url.startsWith('http') && !url.startsWith('/') && !url.startsWith('data:')) {
+                    return `/${url}`;
+                }
+                return url;
+            });
 
         if (finalImages.length === 0) {
             setError("Debes agregar al menos una imagen.");
@@ -283,7 +292,7 @@ export default function ProductForm({ product, isEdit = false, onSuccess }: Prod
                         {imageUrls.map((url, index) => (
                             <div key={index} className="flex gap-2">
                                 <input
-                                    type="url"
+                                    type="text"
                                     value={url}
                                     onChange={(e) => handleImageChange(index, e.target.value)}
                                     className="flex-1 h-12 bg-gray-50 border border-gray-200 rounded-sm px-4 text-black placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black focus:border-black"

@@ -129,7 +129,13 @@ export default function PredictiveSearch() {
                                             <div className="relative w-14 h-14 bg-gray-100 rounded-lg overflow-hidden shrink-0 border border-gray-100">
                                                 {product.images?.[0] ? (
                                                     <Image
-                                                        src={product.images[0]}
+                                                        src={
+                                                            product.images[0].startsWith('http') ||
+                                                                product.images[0].startsWith('/') ||
+                                                                product.images[0].startsWith('data:')
+                                                                ? product.images[0]
+                                                                : `/${product.images[0]}`
+                                                        }
                                                         alt={product.name}
                                                         fill
                                                         className="object-cover group-hover:scale-110 transition-transform duration-500"

@@ -11,9 +11,9 @@ export default async function AdminLayout({
     const session = await requireAdmin();
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
+        <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
             {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-gray-100 flex flex-col">
+            <aside className="w-full md:w-64 md:min-h-screen bg-white md:border-r border-b md:border-b-0 border-gray-100 flex flex-col shrink-0">
                 {/* Logo/Header */}
                 <div className="p-6 border-b border-gray-100 uppercase tracking-tighter">
                     <Link href="/admin/dashboard" className="flex items-center gap-2">
@@ -23,8 +23,8 @@ export default async function AdminLayout({
                 </div>
 
                 {/* Navigation */}
-                <nav className="flex-1 p-4">
-                    <ul className="space-y-2">
+                <nav className="p-2 md:p-4 overflow-x-auto md:flex-1 hide-scrollbar">
+                    <ul className="flex md:flex-col gap-2 min-w-max md:min-w-0">
                         <li>
                             <Link
                                 href="/admin/dashboard"
@@ -56,8 +56,8 @@ export default async function AdminLayout({
                 </nav>
 
                 {/* User Info & Logout */}
-                <div className="p-4 border-t border-gray-100">
-                    <div className="mb-3 px-4">
+                <div className="p-4 md:border-t border-gray-100 flex md:flex-col justify-between items-center md:items-stretch gap-4 bg-gray-50 md:bg-white">
+                    <div className="md:mb-3 md:px-4">
                         <p className="text-xs font-bold uppercase text-gray-500 tracking-wider">
                             Usuario
                         </p>
@@ -73,7 +73,7 @@ export default async function AdminLayout({
                     >
                         <button
                             type="submit"
-                            className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-sm transition-colors font-medium"
+                            className="flex items-center gap-3 px-4 py-2 md:py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-sm transition-colors font-medium border border-gray-200 md:border-none focus:outline-none"
                         >
                             <LogOut className="w-5 h-5" />
                             Cerrar Sesión
@@ -83,8 +83,8 @@ export default async function AdminLayout({
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-auto">
-                <div className="container mx-auto p-8">{children}</div>
+            <main className="flex-1 overflow-auto w-full">
+                <div className="container mx-auto p-4 md:p-8">{children}</div>
             </main>
         </div>
     );
