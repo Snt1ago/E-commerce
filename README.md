@@ -23,7 +23,7 @@ A full-stack e-commerce application built with Next.js, featuring an admin dashb
 
 ## Demo
 
-<video src="/public/Demo.mp4" width="100%" controls></video>
+<video src="/public/demo.mp4" width="100%" controls></video>
 
 ## Features
 
