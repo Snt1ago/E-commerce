@@ -1,6 +1,6 @@
 import { requireAdmin } from "@/lib/auth-utils";
 import Link from "next/link";
-import { Package, LayoutDashboard, LogOut, ShoppingBag } from "lucide-react";
+import { Package, LayoutDashboard, LogOut, ShoppingBag, Users } from "lucide-react";
 import { signOut } from "@/auth";
 
 export default async function AdminLayout({
@@ -50,6 +50,15 @@ export default async function AdminLayout({
                             >
                                 <ShoppingBag className="w-5 h-5" />
                                 Pedidos
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/admin/users"
+                                className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-sm transition-colors font-medium"
+                            >
+                                <Users className="w-5 h-5" />
+                                Usuarios
                             </Link>
                         </li>
                     </ul>

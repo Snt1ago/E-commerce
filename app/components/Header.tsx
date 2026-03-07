@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, User as UserIcon, LogOut, Package, ChevronDown, LayoutDashboard, Menu, X } from "lucide-react";
+import { Search, ShoppingCart, User as UserIcon, LogOut, Package, ChevronDown, LayoutDashboard, Menu, X, Settings } from "lucide-react";
 import { useCartStore } from "@/app/store/cart";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -150,6 +150,15 @@ export default function Header() {
                       </div>
 
                       <Link
+                        href="/profile"
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-gray-700 hover:bg-gray-50 hover:text-black transition-colors"
+                      >
+                        <Settings className="w-4 h-4" />
+                        MI PERFIL
+                      </Link>
+
+                      <Link
                         href="/dashboard"
                         onClick={() => setShowUserMenu(false)}
                         className="flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-gray-700 hover:bg-gray-50 hover:text-black transition-colors"
@@ -271,6 +280,15 @@ export default function Header() {
                     <span className="text-[10px] font-medium text-gray-400">{session.user?.email}</span>
                   </div>
                 </div>
+
+                <Link
+                  href="/profile"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 py-2 text-sm font-bold text-gray-700"
+                >
+                  <Settings className="w-5 h-5" />
+                  MI PERFIL
+                </Link>
 
                 <Link
                   href="/dashboard"
