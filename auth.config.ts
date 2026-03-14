@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
+import { isAdminRole } from "@/lib/roles";
 
 export const authConfig = {
   pages: {
@@ -8,29 +9,30 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
+      const role = (auth?.user as any)?.role;
+      const redirectForLoggedUser = isAdminRole(role) ? "/admin/dashboard" : "/dashboard";
       const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
       const isOnAdmin = nextUrl.pathname.startsWith("/admin");
       const isOnCheckout = nextUrl.pathname.startsWith("/checkout");
+      const isOnAuth = nextUrl.pathname.startsWith("/auth");
 
       if (isOnAdmin) {
         if (isLoggedIn) {
-          // Check if user is admin
-          const role = (auth?.user as any)?.role;
-          if (role === "admin") return true;
-          return Response.redirect(new URL("/", nextUrl)); // Redirect non-admins to home
+          if (isAdminRole(role)) return true;
+          return Response.redirect(new URL("/", nextUrl));
         }
-        return false; // Redirect unauthenticated users to login page (default behavior of returning false)
+        return false;
       }
 
       if (isOnDashboard || isOnCheckout) {
         if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        // Redirect logged-in users away from auth pages
-        // if (nextUrl.pathname.startsWith('/auth')) {
-        //   return Response.redirect(new URL('/dashboard', nextUrl));
-        // }
+        return false;
       }
+
+      if (isLoggedIn && isOnAuth) {
+        return Response.redirect(new URL(redirectForLoggedUser, nextUrl));
+      }
+
       return true;
     },
     jwt({ token, user, trigger, session }) {
@@ -50,3 +52,4 @@ export const authConfig = {
   },
   providers: [], // Add providers with an empty array for now
 } satisfies NextAuthConfig;
+

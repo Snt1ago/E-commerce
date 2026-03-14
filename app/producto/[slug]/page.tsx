@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getAllProducts, getProductBySlug } from "@/lib/products";
 import type { Metadata } from "next";
 import ProductDetails from "@/app/components/ProductDetails";
+import BackButton from "@/app/components/BackButton";
 
 type Props = {
   params: {
@@ -73,17 +74,22 @@ export default async function ProductPage({
   if (!product) notFound();
 
   return (
-    <main className="p-8 grid md:grid-cols-2 gap-8">
-      <Image
-        src={product.images[0]}
-        alt={product.name}
-        width={500}
-        height={500}
-        priority
-      />
+    <main className="container mx-auto p-8 pt-24">
+      <BackButton href="/" label="Volver al catálogo" />
+      <div className="grid md:grid-cols-2 gap-12">
+        <div className="relative aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+          <Image
+            src={product.images[0]}
+            alt={product.name}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
 
-      <div>
-        <ProductDetails product={product} />
+        <div className="flex flex-col">
+          <ProductDetails product={product} />
+        </div>
       </div>
     </main>
   );

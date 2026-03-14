@@ -195,3 +195,4 @@ export async function deleteProduct(id: string) {
         return { error: error.message || "Failed to delete product" };
     }
 }
+

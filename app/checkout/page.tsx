@@ -64,7 +64,15 @@ export default function CheckoutPage() {
           {/* Main Content: Forms */}
           <div className="flex-1 max-w-2xl">
             <div className="mb-8">
-              {step > 1 && (
+              {step === 1 ? (
+                <Link
+                  href="/cart"
+                  className="flex items-center text-sm font-bold text-neutral-500 hover:text-black transition-colors uppercase tracking-widest"
+                >
+                  <ChevronLeft className="w-4 h-4 mr-1" />
+                  Volver al carrito
+                </Link>
+              ) : (
                 <button
                   onClick={prevStep}
                   className="flex items-center text-sm font-bold text-neutral-500 hover:text-black transition-colors uppercase tracking-widest"

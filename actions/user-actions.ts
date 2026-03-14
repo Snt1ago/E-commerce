@@ -140,3 +140,4 @@ export async function deleteAccount(id: string) {
         return { success: false, error: "No se pudo eliminar la cuenta" };
     }
 }
+

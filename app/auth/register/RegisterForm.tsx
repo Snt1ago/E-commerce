@@ -4,15 +4,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { registerUser } from "@/actions/auth-actions";
+import { signIn as nextSignIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AlertCircle, User, Mail, Lock, Loader2, ArrowRight, CheckCircle2 } from "lucide-react";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 const schema = z.object({
     name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
     email: z.string().email("Correo electrónico inválido"),
     password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+    isAdmin: z.boolean().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -41,18 +44,25 @@ export default function RegisterForm() {
         formData.append("name", data.name);
         formData.append("email", data.email);
         formData.append("password", data.password);
+        if (data.isAdmin) {
+            formData.append("role", "admin");
+        }
 
         try {
             const result = await registerUser(formData);
             if (result.error) {
                 setError(result.error);
-            } else {
-                setSuccess("¡Registro exitoso! Redirigiendo...");
-                setTimeout(() => {
-                    router.push("/auth/login");
-                }, 2000);
+            } else if (result && (result as any).redirectTo) {
+                // Ejecutar signIn en el cliente para establecer la sesión y redirigir
+                await nextSignIn("credentials", {
+                    redirect: true,
+                    email: data.email,
+                    password: data.password,
+                    callbackUrl: (result as any).redirectTo,
+                });
             }
         } catch (err) {
+            if (isRedirectError(err)) throw err;
             setError("Ocurrió un error inesperado");
         } finally {
             setIsPending(false);
@@ -151,6 +161,18 @@ export default function RegisterForm() {
                         {errors.password && (
                             <p className="text-xs text-red-600 font-medium">{errors.password.message}</p>
                         )}
+                    </div>
+
+                    <div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-sm border border-gray-100">
+                        <input
+                            type="checkbox"
+                            id="isAdmin"
+                            {...register("isAdmin")}
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <label htmlFor="isAdmin" className="text-sm font-medium text-gray-700 cursor-pointer">
+                            Registrar como Administrador <span className="text-[10px] text-gray-400 font-normal">(Modo Setup)</span>
+                        </label>
                     </div>
 
                     <button

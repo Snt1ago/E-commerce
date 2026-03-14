@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-import UserProfileForm from "./UserProfileForm";
+import UserProfileForm from "@/app/profile/UserProfileForm";
+import BackButton from "../components/BackButton";
 
 export default async function ProfilePage() {
     const session = await auth();
@@ -27,7 +28,8 @@ export default async function ProfilePage() {
 
     return (
         <div className="min-h-screen bg-gray-50 py-12">
-            <div className="container mx-auto px-4 max-w-3xl">
+            <div className="container mx-auto px-4 max-w-3xl pt-12">
+                <BackButton href="/" label="Volver al inicio" />
                 <h1 className="text-3xl font-extrabold text-black mb-2">Mi Perfil</h1>
                 <p className="text-gray-600 mb-8">Administra tu información personal y contraseña.</p>
 

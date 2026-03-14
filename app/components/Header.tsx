@@ -6,6 +6,7 @@ import { useCartStore } from "@/app/store/cart";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { isAdminRole } from "@/lib/roles";
 import { useSession, signOut } from "next-auth/react";
 import PredictiveSearch from "./PredictiveSearch";
 
@@ -23,6 +24,9 @@ export default function Header() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const isAdmin = isAdminRole((session?.user as any)?.role);
+  const firstName = session?.user?.name?.split(" ")[0] || "Usuario";
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,8 +132,8 @@ export default function Header() {
                     )}
                   </div>
                   <div className="hidden xl:flex flex-col items-start leading-none">
-                    <span className="text-[10px] uppercase font-bold text-gray-400">Hola,</span>
-                    <span className="text-xs font-black truncate max-w-[100px]">{session.user?.name?.split(' ')[0]}</span>
+                    <span className="text-[10px] uppercase font-bold text-gray-400 truncate max-w-[120px]">{firstName}</span>
+                    <span className="text-xs font-black">Mi Cuenta</span>
                   </div>
                   <ChevronDown className={cn("w-4 h-4 transition-transform", showUserMenu ? "rotate-180" : "")} />
                 </button>
@@ -144,7 +148,7 @@ export default function Header() {
                       <div className="px-4 py-3 border-b border-gray-50 flex flex-col">
                         <span className="text-xs font-black uppercase text-gray-900 truncate">{session.user?.name}</span>
                         <span className="text-[10px] font-medium text-gray-400 truncate">{session.user?.email}</span>
-                        {(session.user as any).role === 'admin' && (
+                        {isAdmin && (
                           <span className="mt-1 w-fit bg-red-50 text-red-600 text-[8px] font-black uppercase px-2 py-0.5 rounded-full border border-red-100">Administrador</span>
                         )}
                       </div>
@@ -167,11 +171,11 @@ export default function Header() {
                         MIS PEDIDOS
                       </Link>
 
-                      {(session.user as any).role === 'admin' && (
+                      {isAdmin && (
                         <Link
                           href="/admin/dashboard"
                           onClick={() => setShowUserMenu(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-blue-600 hover:bg-blue-50 transition-colors"
+                          className="flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-blue-600 hover:bg-blue-50 transition-colors border-y border-blue-50"
                         >
                           <LayoutDashboard className="w-4 h-4" />
                           PANEL DE CONTROL
@@ -299,7 +303,7 @@ export default function Header() {
                   MIS PEDIDOS
                 </Link>
 
-                {(session.user as any).role === 'admin' && (
+                {isAdmin && (
                   <Link
                     href="/admin/dashboard"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -337,3 +341,4 @@ export default function Header() {
     </header>
   );
 }
+

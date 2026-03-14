@@ -5,11 +5,14 @@ import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { isAdminRole } from "@/lib/roles";
 
 const RegisterSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
+  role: z.string().optional(),
 });
 
 const LoginSchema = z.object({
@@ -17,20 +20,24 @@ const LoginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+type AuthenticateResult =
+  | { error: string }
+  | { success: true; redirectTo: string };
+
 export async function registerUser(formData: FormData) {
   const validatedFields = RegisterSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
+    role: formData.get("role"),
   });
 
   if (!validatedFields.success) {
     return { error: "Invalid fields" };
   }
 
-  const { name, email, password } = validatedFields.data;
+  const { name, email, password, role } = validatedFields.data;
 
-  // Check if user already exists
   const existingUser = await prisma.user.findUnique({
     where: { email },
   });
@@ -39,56 +46,67 @@ export async function registerUser(formData: FormData) {
     return { error: "Email already in use" };
   }
 
-  // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Create user
   try {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
+        role: role === "admin" ? "admin" : "user",
       },
     });
-  } catch (error) {
-    return { error: "Failed to create user" };
-  }
 
-  // Return success so client can redirect to login or auto-login
-  return { success: "User created successfully!" };
+    const redirectPath = isAdminRole(user.role) ? "/admin/dashboard" : "/";
+
+    // No realizar el signin desde el server; devolver la ruta para que el cliente
+    // haga el `signIn` y establezca correctamente las cookies/sesión.
+    return { success: true, redirectTo: redirectPath };
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    return { error: "Failed to create user or login" };
+  }
 }
 
-export async function authenticate(prevState: string | undefined, formData: FormData) {
-  try {
-    const email = formData.get("email") as string;
-    let redirectPath = "/";
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+): Promise<AuthenticateResult> {
+  void prevState;
 
-    if (email) {
-      try {
-        const user = await prisma.user.findUnique({ where: { email } });
-        if (user?.role === "admin") {
-          redirectPath = "/admin/dashboard";
-        }
-      } catch (dbError) {
-        console.error("Error fetching user role for redirect:", dbError);
-      }
+  try {
+    const email = ((formData.get("email") as string) || "").trim();
+    const password = ((formData.get("password") as string) || "").trim();
+    const validatedFields = LoginSchema.safeParse({ email, password });
+
+    if (!validatedFields.success) {
+      return { error: "Credenciales invalidas. Verifica tu email y contrasena." };
     }
 
-    await signIn("credentials", { ...Object.fromEntries(formData), redirectTo: redirectPath });
+    const user = await prisma.user.findUnique({ where: { email } });
+    const redirectPath = isAdminRole(user?.role) ? "/admin/dashboard" : "/dashboard";
+
+    // No realizar el signin desde el server aquí; devolver la ruta de redirección
+    // y permitir que el cliente haga el signIn para garantizar que la sesión
+    // y las cookies se establezcan correctamente antes de navegar.
+    return { success: true, redirectTo: redirectPath };
   } catch (error) {
-    if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+    if (isRedirectError(error)) {
       throw error;
     }
 
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials.";
+          return { error: "Credenciales invalidas. Verifica tu email y contrasena." };
         default:
-          return "Something went wrong.";
+          return { error: "Ocurrio un error. Intentalo de nuevo." };
       }
     }
+
     throw error;
   }
 }

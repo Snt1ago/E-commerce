@@ -43,3 +43,4 @@ export function getAllShorts(): Short[] {
 export function getShortBySlug(slug: string): Short | undefined {
   return shorts.find((s) => s.slug === slug);
 }
+

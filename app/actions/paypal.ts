@@ -26,3 +26,4 @@ export async function createPayPalOrder(items: CartItem[]) {
     throw new Error("Error creating PayPal order");
   }
 }
+

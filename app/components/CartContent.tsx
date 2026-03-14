@@ -3,7 +3,8 @@
 import { useCartStore } from "@/app/store/cart";
 import Link from "next/link";
 import Image from "next/image";
-import { Trash2, ArrowRight, Minus, Plus, Loader2 } from "lucide-react";
+import { Trash2, ArrowRight, Minus, Plus, Loader2, ChevronLeft } from "lucide-react";
+import BackButton from "./BackButton";
 import { createPayPalOrder } from "@/app/actions/paypal";
 import { useState } from "react";
 
@@ -43,6 +44,7 @@ export default function CartContent() {
 
                 {/* Cart Items List */}
                 <div className="flex-1">
+                    <BackButton href="/" label="Continuar comprando" />
                     <div className="flex items-center justify-between mb-8">
                         <h1 className="text-3xl font-bold">Tu Carrito ({items.length})</h1>
                         <button

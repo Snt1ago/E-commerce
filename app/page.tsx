@@ -8,11 +8,13 @@ import Contact from "./components/Contact";
 import Newsletter from "./components/Newsletter";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import AdminDashboardLink from "./components/AdminDashboardLink";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
       <Header />
+      <AdminDashboardLink />
       <Hero />
       <FavoritesGrid />
       <FeaturesSection />

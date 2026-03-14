@@ -84,3 +84,4 @@ export async function getFilteredProducts(
 
 export const CATEGORIES = ["shorts"];
 export const GENDERS = ["hombre", "mujer", "ninos"];
+
