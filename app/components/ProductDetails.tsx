@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Product } from "@/lib/products";
+import { ProductDetail as Product } from "@/lib/contentful";
 import AddToCartButton from "./AddToCartButton";
 import { Star, Truck, ShieldCheck, RefreshCcw } from "lucide-react";
 

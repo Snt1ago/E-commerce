@@ -1,26 +1,22 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getAllProducts, getProductBySlug } from "@/lib/products";
 import type { Metadata } from "next";
 import ProductDetails from "@/app/components/ProductDetails";
 import BackButton from "@/app/components/BackButton";
+import { getProductBySlug, getProducts } from '@/lib/contentful'
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
-type Props = {
-  params: {
-    slug: string;
-  };
-};
-
-function capitalize(s: string) {
+function capitalize(s: string | undefined | null) {
+  if (!s) return '';
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
-
 export async function generateStaticParams() {
-  const products = await getAllProducts();
+  const products = await getProducts();
   return products.map((product) => ({
     slug: product.slug,
   }));
 }
+export const revalidate = 60
 
 export async function generateMetadata({
   params,
@@ -36,8 +32,11 @@ export async function generateMetadata({
     };
   }
 
+
+
   const title = `${product.name} | ${capitalize(product.gender)} | Marca`;
-  const description = `${product.name} - Compra ${product.name} para ${product.gender} en Marca. Talles: ${product.sizes.join(", ")}. Colores: ${product.colors.join(", ")}.`;
+  const description = `${product.name} - Compra ${product.name} para ${product.gender} en Marca. Talles: ${(product.sizes ?? []).join(", ")}. Colores: ${(product.colors ?? []).join(", ")}.`;
+  const firstImage = product.images?.[0] ?? '';
 
   return {
     title,
@@ -45,20 +44,22 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      images: [
-        {
-          url: product.images[0],
-          width: 500,
-          height: 500,
-          alt: product.name,
-        },
-      ],
+      ...(firstImage && {
+        images: [
+          {
+            url: firstImage,
+            width: 500,
+            height: 500,
+            alt: product.name,
+          },
+        ],
+      }),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [product.images[0]],
+      ...(firstImage && { images: [firstImage] }),
     },
   };
 }
@@ -72,23 +73,31 @@ export default async function ProductPage({
   const product = await getProductBySlug(slug);
 
   if (!product) notFound();
+  const p = product!;
 
   return (
     <main className="container mx-auto p-8 pt-24">
       <BackButton href="/" label="Volver al catálogo" />
       <div className="grid md:grid-cols-2 gap-12">
         <div className="relative aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-          <Image
-            src={product.images[0]}
-            alt={product.name}
-            fill
-            className="object-cover"
-            priority
-          />
+          {p.images?.[0] && (
+            <Image
+              src={p.images[0]}
+              alt={p.name}
+              fill
+              className="object-cover"
+              priority
+            />
+          )}
         </div>
 
         <div className="flex flex-col">
-          <ProductDetails product={product} />
+          <ProductDetails product={p} />
+          {p.description && (
+            <div className="prose prose-gray max-w-none mt-6">
+              {documentToReactComponents(p.description)}
+            </div>
+          )}
         </div>
       </div>
     </main>

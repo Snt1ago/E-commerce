@@ -1,24 +1,29 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Short } from "@/lib/getShortsByGender";
+import { type Product } from '@/lib/contentful';
 
 type Props = {
-  product: Short;
+  product: Short | Product
 };
 
+
 export default function ProductCard({ product }: Props) {
+  const imageUrl = 'image' in product ? product.image : (product.images?.[0] || '/placeholder.jpg');
   return (
-    <Link href={`/producto/${product.slug}`}>
-      <article className="border p-4">
+    <Link href={`/products/${product.slug}`}>
+      <div className="border rounded-lg overflow-hidden">
         <Image
-          src={product.image}
+          src={imageUrl}
           alt={product.name}
-          width={200}
-          height={200}
+          width={400}
+          height={300}
         />
-        <h3>{product.name}</h3>
-        <p>${product.price}</p>
-      </article>
+        <div className="p-4">
+          <h2 className="font-semibold">{product.name}</h2>
+          <p className="text-gray-600">${product.price}</p>
+        </div>
+      </div>
     </Link>
   );
 }

@@ -1,15 +1,23 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Product } from '@/lib/products';
 
-export interface CartItem extends Product {
+export interface CartProduct {
+  id: string;
+  name: string;
+  price: number;
+  images: string[];
+  category?: string;
+  gender?: string;
+}
+
+export interface CartItem extends CartProduct {
   quantity: number;
   selectedSize?: string;
 }
 
 interface CartState {
   items: CartItem[];
-  addItem: (product: Product, qty: number, size?: string) => void;
+  addItem: (product: CartProduct, qty: number, size?: string) => void;
   removeItem: (productId: string, size?: string) => void;
   updateQuantity: (productId: string, size: string | undefined, qty: number) => void;
   incrementQuantity: (productId: string, size?: string) => void;

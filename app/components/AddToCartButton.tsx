@@ -1,7 +1,7 @@
 "use client";
 
 import { useCartStore } from "@/app/store/cart";
-import { Product } from "@/lib/products";
+import { ProductDetail as Product } from "@/lib/contentful";
 import { useState } from "react";
 import { ShoppingBag, Check } from "lucide-react";
 
@@ -27,10 +27,10 @@ export default function AddToCartButton({ product, selectedSize, disabled }: Add
       onClick={handleAddToCart}
       disabled={disabled}
       className={`btn-premium w-full flex items-center justify-center gap-2 !rounded-2xl ${added
-          ? "bg-green-600 text-white hover:bg-green-700"
-          : disabled
-            ? "bg-gray-400 text-gray-200 cursor-not-allowed shadow-none hover:scale-100 active:scale-100"
-            : "bg-black text-white"
+        ? "bg-green-600 text-white hover:bg-green-700"
+        : disabled
+          ? "bg-gray-400 text-gray-200 cursor-not-allowed shadow-none hover:scale-100 active:scale-100"
+          : "bg-black text-white"
         }`}
     >
       {added ? (
