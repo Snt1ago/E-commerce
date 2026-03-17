@@ -9,12 +9,16 @@ import Newsletter from "./components/Newsletter";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AdminDashboardLink from "./components/AdminDashboardLink";
+import { getHeroBanner } from '@/lib/contentful'
+import HeroBanner from './components/HeroBanner'
 
-export default function Home() {
+export default async function Home() {
+  const banner = await getHeroBanner()
   return (
     <main className="min-h-screen bg-white">
       <Header />
       <AdminDashboardLink />
+      {banner ? <HeroBanner banner={banner} /> : <Hero />}
       <Hero />
       <FavoritesGrid />
       <FeaturesSection />

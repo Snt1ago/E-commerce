@@ -12,6 +12,16 @@ export const contentfulPreviewClient = createClient({
     host: 'preview.contentful.com',
 })
 
+export type HeroBanner = {
+    title: string
+    subtitle: string
+    ctaPrimaryLabel: string
+    ctaPrimaryUrl: string
+    ctaSecondaryLabel: string
+    ctaSecondaryUrl: string
+    image: { fields: { file: { url: string; details: { image: { width: number; height: number } } } } }
+}
+
 // Tipo alineado con los campos que usa el template
 export type Product = {
     id: string
@@ -98,4 +108,13 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
         rating: item.fields.rating ?? 4.5,
         description: item.fields.description ?? null,
     } as ProductDetail
+}
+
+export async function getHeroBanner(): Promise<HeroBanner | null> {
+    const res = await contentfulClient.getEntries<{ contentTypeId: 'heroBanner'; fields: HeroBanner }>({
+        content_type: 'heroBanner',
+        limit: 1,
+    })
+    if (!res.items.length) return null
+    return res.items[0].fields
 }
