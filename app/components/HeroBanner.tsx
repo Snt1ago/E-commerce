@@ -5,7 +5,7 @@ import { type HeroBanner } from '@/lib/contentful'
 type Props = { banner: HeroBanner }
 
 export default function HeroBanner({ banner }: Props) {
-    const imageUrl = `https:${banner.image.fields.file.url}`
+    const imageUrl = banner.image
 
     return (
         <section className="relative w-full h-[500px] flex items-center">

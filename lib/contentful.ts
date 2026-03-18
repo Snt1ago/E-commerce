@@ -19,7 +19,7 @@ export type HeroBanner = {
     ctaPrimaryUrl: string
     ctaSecondaryLabel: string
     ctaSecondaryUrl: string
-    image: { fields: { file: { url: string; details: { image: { width: number; height: number } } } } }
+    image: string // pre-processed URL (https:...)
 }
 
 // Tipo alineado con los campos que usa el template
@@ -111,10 +111,22 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
 }
 
 export async function getHeroBanner(): Promise<HeroBanner | null> {
-    const res = await contentfulClient.getEntries<{ contentTypeId: 'heroBanner'; fields: HeroBanner }>({
+    const res = await contentfulClient.getEntries({
         content_type: 'heroBanner',
         limit: 1,
     })
     if (!res.items.length) return null
-    return res.items[0].fields
+    const item = res.items[0] as any
+    const rawImage = item.fields.image
+    const imageUrl = rawImage?.fields?.file?.url
+    if (!imageUrl) return null
+    return {
+        title: item.fields.title,
+        subtitle: item.fields.subtitle,
+        ctaPrimaryLabel: item.fields.ctaPrimaryLabel,
+        ctaPrimaryUrl: item.fields.ctaPrimaryUrl,
+        ctaSecondaryLabel: item.fields.ctaSecondaryLabel,
+        ctaSecondaryUrl: item.fields.ctaSecondaryUrl,
+        image: `https:${imageUrl}`,
+    }
 }
