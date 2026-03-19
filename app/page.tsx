@@ -9,8 +9,9 @@ import Newsletter from "./components/Newsletter";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AdminDashboardLink from "./components/AdminDashboardLink";
-import { getHeroBanner } from '@/lib/contentful'
+import { getHeroBanner, getHeroBannerPreview } from '@/lib/contentful'
 import HeroBanner from './components/HeroBanner'
+import { draftMode } from 'next/headers'
 
 export default async function Home() {
   const banner = await getHeroBanner()
@@ -31,3 +32,7 @@ export default async function Home() {
     </main>
   );
 }
+const { isEnabled } = await draftMode()
+const banner = isEnabled
+  ? await getHeroBannerPreview()
+  : await getHeroBanner()

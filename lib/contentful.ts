@@ -56,6 +56,42 @@ type Filters = {
     sport?: string
 }
 
+export async function getHeroBannerPreview(): Promise<HeroBanner | null> {
+    const res = await contentfulPreviewClient.getEntries<{ contentTypeId: 'heroBanner'; fields: HeroBanner }>({
+        content_type: 'heroBanner',
+        limit: 1,
+    })
+    if (!res.items.length) return null
+    return res.items[0].fields
+}
+
+export async function getProductBySlugPreview(slug: string): Promise<ProductDetail | null> {
+    const query: Record<string, any> = {
+        content_type: 'product',
+        'fields.slug': slug,
+        limit: 1,
+    }
+    const res = await contentfulPreviewClient.getEntries(query)
+    if (!res.items.length) return null
+    const item = res.items[0] as any
+    return {
+        id: item.sys.id,
+        name: item.fields.name,
+        slug: item.fields.slug,
+        price: item.fields.price,
+        brand: item.fields.brand ?? '',
+        sport: item.fields.sport ?? '',
+        gender: item.fields.gender ?? '',
+        images: (item.fields.images ?? [])
+            .map((img: any) => img?.fields?.file?.url ? `https:${img.fields.file.url}` : null)
+            .filter(Boolean) as string[],
+        sizes: item.fields.sizes ?? [],
+        colors: item.fields.colors ?? [],
+        rating: item.fields.rating ?? 4.5,
+        description: item.fields.description ?? null,
+    } as ProductDetail
+}
+
 export async function getProducts(filters: Filters = {}): Promise<Product[]> {
     const query: Record<string, string> = {
         content_type: 'product',

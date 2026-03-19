@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ProductDetails from "@/app/components/ProductDetails";
 import BackButton from "@/app/components/BackButton";
-import { getProductBySlug, getProducts } from '@/lib/contentful'
+import { getProductBySlug, getProducts, getProductBySlugPreview } from '@/lib/contentful'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { draftMode } from 'next/headers'
+
 
 function capitalize(s: string | undefined | null) {
   if (!s) return '';
@@ -70,7 +72,11 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
+  const { isEnabled } = await draftMode();
+
+  const product = isEnabled
+    ? await getProductBySlugPreview(slug)
+    : await getProductBySlug(slug);
 
   if (!product) notFound();
   const p = product!;
